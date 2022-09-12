@@ -1,4 +1,4 @@
-module github.com/yutomoriyasu/summer-break-web-app
+module message-board
 
 go 1.18
 
