@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: ./api/
+      target: gobuilder
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api:/app
+    working_dir: /app
+    command: [ "./run.sh" ]
+
+  front:
+    build:
+      context: ./front
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./front:/app
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+    ports:
+      - 3000:3000
+    command: bash -c 'yarn install && yarn dev'
