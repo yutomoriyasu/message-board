@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  version: "0.0.1"
+  title: "message-board"
+servers:
+  - url: "http://localhost:8080"
+    description: local
+tags:
+  - name: "user"
+    description: ユーザ
+paths:
+  /users:
+   post:
+    tags:
+      - user
+    operationId: CreateUser
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateUserParam"
+    responses:
+      201:
+        description: Created
+        content:
+          application/json:
+            schema:
+              title: 作成されたユーザー
+              $ref: "#/components/schemas/User"
+      500:
+        description: Internal Server Error
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+          x-go-type: uint64
+          example: 1
+        name:
+          type: string
+          example: さとうだいき
+        email:
+          type: string
+          example: daiki.sato@example.com
+    CreateUserParam:
+      $ref: "#/components/schemas/User"
+
