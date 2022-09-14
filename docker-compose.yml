@@ -9,7 +9,25 @@ services:
     volumes:
       - ./api:/app
     working_dir: /app
+    depends_on:
+      - db
     command: [ "./run.sh" ]
+    networks:
+      - message-board-network
+  
+  db:
+    image: postgres:11.9
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - message-board-network
 
   front:
     build:
@@ -24,16 +42,10 @@ services:
     ports:
       - 3000:3000
     command: bash -c 'yarn install && yarn dev'
-
-  db:
-    image: postgres:11.9
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: test
+    networks:
+      - message-board-network
 
 networks:
-  default:
-    external:
-      name: postgres-test-network
+  message-board-network:
+    driver: bridge
+
