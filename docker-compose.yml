@@ -24,3 +24,16 @@ services:
     ports:
       - 3000:3000
     command: bash -c 'yarn install && yarn dev'
+
+  db:
+    image: postgres:11.9
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test
+
+networks:
+  default:
+    external:
+      name: postgres-test-network
