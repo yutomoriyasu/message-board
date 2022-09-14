@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"strconv"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -62,17 +61,6 @@ func Connect() (DB, func() error, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-
-	moc, err := strconv.Atoi(os.Getenv("POSTGRES_MAX_OPEN_CONNS"))
-	if err != nil {
-		return nil, nil, err
-	}
-	mic, err := strconv.Atoi(os.Getenv("POSTGRES_MAX_OPEN_CONNS"))
-	if err != nil {
-		return nil, nil, err
-	}
-	sqlDB.SetMaxOpenConns(moc)
-	sqlDB.SetMaxIdleConns(mic)
 
 	return currentConnection, sqlDB.Close, err
 }
