@@ -8,9 +8,9 @@ type CreateUserParam = User
 
 // User defines model for User.
 type User struct {
-	Email *string `json:"email,omitempty"`
-	Id    *uint64 `json:"id,omitempty"`
-	Name  *string `json:"name,omitempty"`
+	Email string `json:"email"`
+	Id    uint64 `json:"id"`
+	Name  string `json:"name"`
 }
 
 // CreateUserJSONBody defines parameters for CreateUser.

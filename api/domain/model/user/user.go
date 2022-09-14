@@ -13,3 +13,10 @@ func NewUser(id ID, name Name, email Email) *User {
 		Email: email,
 	}
 }
+
+func NewUserForCreate(name Name, email Email) *User {
+	return &User{
+		Name:  name,
+		Email: email,
+	}
+}

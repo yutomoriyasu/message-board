@@ -44,6 +44,10 @@ components:
         email:
           type: string
           example: daiki.sato@example.com
+      required:
+        - id
+        - name
+        - email
     CreateUserParam:
       $ref: "#/components/schemas/User"
 
