@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"message-board/infrastructure/postgres"
-	"message-board/router"
 
 	"os"
 
@@ -14,8 +13,6 @@ import (
 func main() {
 
 	e := echo.New()
-
-	r := router.NewRouter(e)
 
 	db, dbClose, err := postgres.Connect()
 	if err != nil {
@@ -30,5 +27,6 @@ func main() {
 		httpPort = "8080"
 	}
 
+	r := InitRouter(e, db)
 	r.Init(httpPort)
 }

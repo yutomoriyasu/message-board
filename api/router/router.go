@@ -1,6 +1,8 @@
 package router
 
 import (
+	"message-board/controller"
+	"message-board/controller/openapi"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,10 +11,12 @@ import (
 
 type Router struct {
 	e *echo.Echo
+	c *controller.Controller
 }
 
-func NewRouter(e *echo.Echo) *Router {
-	return &Router{e: e}
+func NewRouter(e *echo.Echo, c *controller.Controller) *Router {
+	openapi.RegisterHandlers(e, c)
+	return &Router{e: e, c: c}
 }
 
 func (r Router) Init(port string) {
