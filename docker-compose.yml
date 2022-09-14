@@ -32,6 +32,8 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: test
+    ports:
+      - 5432:5432
 
 networks:
   default:
