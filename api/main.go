@@ -1,14 +1,14 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"message-board/infrastructure/postgres"
 	"message-board/router"
 
-	"fmt"
 	"os"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 func main() {
@@ -17,16 +17,13 @@ func main() {
 
 	r := router.NewRouter(e)
 
-	dsn := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable",
-		"root",
-		"password",
-		"test",
-		"db",
-		"5432",
-	)
-	db, _ := gorm.Open(postgres.Open(dsn))
-
-	fmt.Println(db.Statement.Vars...)
+	db, dbClose, err := postgres.Connect()
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
+	defer dbClose()
+	fmt.Println(db)
 
 	httpPort := os.Getenv("HTTP_PORT")
 	if httpPort == "" {

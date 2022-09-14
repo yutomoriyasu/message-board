@@ -6,7 +6,7 @@ import (
 )
 
 type IUserUsecase interface {
-	CreateUser(context.Context, user.Name, user.Email) (*user.ID, error)
+	CreateUser(context.Context, user.Name, user.Email) (*user.User, error)
 }
 
 type userUsecase struct {
@@ -17,12 +17,12 @@ func NewUser(u user.IRepository) IUserUsecase {
 	return &userUsecase{userRepo: u}
 }
 
-func (u *userUsecase) CreateUser(ctx context.Context, name user.Name, email user.Email) (*user.ID, error) {
+func (u *userUsecase) CreateUser(ctx context.Context, name user.Name, email user.Email) (*user.User, error) {
 	user := user.NewUserForCreate(name, email)
 
-	userID, err := u.userRepo.Create(ctx, user)
+	user, err := u.userRepo.Create(ctx, user)
 	if err != nil {
 		return nil, err
 	}
-	return &userID, nil
+	return user, nil
 }

@@ -3,5 +3,5 @@ package user
 import "context"
 
 type IRepository interface {
-	Create(context.Context, *User) (ID, error)
+	Create(context.Context, *User) (*User, error)
 }

@@ -32,10 +32,10 @@ func (u *User) CreateUser(ctx echo.Context) error {
 		return err
 	}
 
-	userID, err := u.userInteractor.CreateUser(ctx.Request().Context(), name, email)
+	user, err := u.userInteractor.CreateUser(ctx.Request().Context(), name, email)
 	if err != nil {
 		return err
 	}
 
-	return ctx.JSON(http.StatusCreated, openapi.NewUser(user.NewUser(*userID, name, email)))
+	return ctx.JSON(http.StatusCreated, openapi.NewUser(user))
 }
