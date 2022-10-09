@@ -8,6 +8,7 @@ import (
 type IUserUsecase interface {
 	CreateUser(context.Context, user.Name, user.Email) (*user.User, error)
 	Find(context.Context) (user.Users, error)
+	GetUserByID(context.Context, user.ID) (*user.User, error)
 }
 
 type userUsecase struct {
@@ -34,4 +35,12 @@ func (u *userUsecase) Find(ctx context.Context) (user.Users, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+func (u *userUsecase) GetUserByID(ctx context.Context, id user.ID) (*user.User, error) {
+	user, err := u.userRepo.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }

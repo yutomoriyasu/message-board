@@ -49,7 +49,13 @@ func (u *User) GetUsers(ctx echo.Context) error {
 }
 
 func (u *User) GetUser(ctx echo.Context, userId openapi.UserId) error {
-	return ctx.NoContent(http.StatusOK)
+	user, err := u.userInteractor.GetUserByID(
+		ctx.Request().Context(), user.NewID(uint64(userId)),
+	)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, openapi.NewUser(user))
 }
 
 func (u *User) UpdateUser(ctx echo.Context, userId openapi.UserId) error {

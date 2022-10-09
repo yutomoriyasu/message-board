@@ -21,6 +21,10 @@ type UserDTO struct {
 
 type userDTOs []UserDTO
 
+func (UserDTO) tableName() string {
+	return "users"
+}
+
 func newUserDTO(u *user.User) *UserDTO {
 	return &UserDTO{
 		Name:  u.Name.String(),
@@ -51,7 +55,7 @@ func (u userDTOs) toUsers() user.Users {
 func (r *userRepository) Create(ctx context.Context, u *user.User) (*user.User, error) {
 	udto := newUserDTO(u)
 	db := r.db.Conn(ctx)
-	err := db.Table("users").Create(udto).Error
+	err := db.Table(udto.tableName()).Create(udto).Error
 	if err != nil {
 		return nil, err
 	}
@@ -61,9 +65,20 @@ func (r *userRepository) Create(ctx context.Context, u *user.User) (*user.User, 
 func (r *userRepository) Find(ctx context.Context) (user.Users, error) {
 	var udtos userDTOs
 	db := r.db.Conn(ctx)
-	err := db.Table("users").Find(&udtos).Error
+	err := db.Table(UserDTO{}.tableName()).Find(&udtos).Error
 	if err != nil {
 		return nil, err
 	}
 	return udtos.toUsers(), nil
+}
+
+func (r *userRepository) GetByID(ctx context.Context, id user.ID) (*user.User, error) {
+	var udto UserDTO
+	db := r.db.Conn(ctx)
+	if err := db.Table(udto.tableName()).
+		First(&udto, id).
+		Error; err != nil {
+		return nil, err
+	}
+	return udto.toUser(), nil
 }
