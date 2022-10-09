@@ -18,17 +18,17 @@ import (
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/7RWzW7TQBB+lWrg6MYuf6p8QvwIVRyKhHqqKrS1p8kWe3eZnVStIh9CETeO3DkhnoAT",
-	"b+MXQbPrNE1iIKLJyfbu/HzftzOznkBha2cNGvaQT8ApUjUyUvg68kgHpbxpAzk4xSNIwKgaIYexR3qn",
-	"S0iA8MNYE5aQM40xAV+MsFbidp/wDHK4l86zpHHXpwclNE0zsw75nhMqRsn6RnD8K0IwJOs8NAlEnHip",
-	"alch5HsJ8JUTnNowDpEggcvdod3tVsfa8JNH4njkyv9OKh/ioKrq8Azy4wk4sg6JNQZCulxLhdsSHovT",
-	"SZOsjeLkhqk9PceCZ7jidr4MCWulqwWpoFT6vR54xfZptzgobA03cT2TNkOJG4/+tm87/dpOf7TTz+30",
-	"Wzv91E6/rPot8QtBkg7In9D3IB/PljVj7dc5JwnWRVdE6moFSgy5ikHstDmzkoQ1B6Y1eq+GuHtqFUnV",
-	"XyB5baUvskE22JNc1qFRTkMODwfZIIMktEyAmt6gHyLLQ5gp1tZI4cIr5Mha8HlnjY+cH2SZPAprGE3w",
-	"U85Vugie6bmX/JM1Gy4mCNxK9AVpxxH/4WsB/zimWtw6MIxkVLXzFukCaeclkaUgI6uhn0ko9QrO+h5i",
-	"85buBgV6fmbLq42xWp4ZTRMPeUHEvY2K2KdhhFHeXcgm6WolnXQTtonRKmRc1fdFWO/0vT29j/t5zE3S",
-	"brrLAOmruW3UyN9qf9P4t3rcG2oZxcVoVZD5jXQ3TTbfbMt3ZW+zbal6wr9CsIlKLIapbKEqSGBMFeQw",
-	"YnZ5mobFkfWc72f7WbwqY9Bl9/b6e3v9q/34c/H/BpqT5ncAAAD//3MzbOYjCQAA",
+	"H4sIAAAAAAAC/7RWz27TThB+lWp+v6Mbu/xT5RPij1DFoUiop6pCW3uabLF3l9lJ1SryIRRx48idE+IJ",
+	"OPVt/CJodp2mSQxENDklXu98833fzsx6AoWtnTVo2EM+AadI1chI4enIIx2U8k8byMEpHkECRtUIOYw9",
+	"0jtdQgKEH8aasIScaYwJ+GKEtZKw/wnPIIf/0nmWNL716UEJTdPMdod8zwkVo2R9Izz+hhA2knUemgQi",
+	"T7xUtasQ8r0E+MoJT20Yh0iQwOXu0O52q2Nt+MkjCTxy5T8nlQcJUFV1eAb58QQcWYfEGoMgXa7lwl0L",
+	"jyXopEnWZnFyq9SenmPBM17xdb5MCWulqwWroFT6vR54xfZptzgobA23uJ5Jm6HgxqO/G9tOv7bTH+30",
+	"czv91k4/tdMvq3FL+gJI0hH5Hfse5uPZsmas/TrnJGAduiJSVytUIuQqB9mnzZmVJKw5KK3RezXE3VOr",
+	"SKr+AslrK32RDbLBnuSyDo1yGnJ4OMgGGSShZQLV9Jb9EFl+RJlibY0ULrxCjqqFn3fW+Kj5QZbJT2EN",
+	"owlxyrlKFyEyPfeSf7Jmw8UEQVuJviDtOPI/fC3kH8dUi68ODCMZVe28RbpA2nlJZCnYyGroZxZKvYKz",
+	"vkfYvKW7QYGen9nyamOqlmdG08RDXjBxb6Mm9nkYaZT3N7JJulpJJ92EbSJahYyr/r4I652/d6f3cb+O",
+	"+Za0m+4yQPpqbhs18qfa3zT/rR73hlpGcTFaNWR+I93Pk8032/Jd2dtsW6qe8K0Q9kQnFmEqW6gKEhhT",
+	"BTmMmF2epmFxZD3n+9l+lspoDtdlBF6GaK+/t9c37cef7fXN4mcONCfNrwAAAP//Lc2dPioJAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

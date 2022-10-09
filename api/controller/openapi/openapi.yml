@@ -3,11 +3,11 @@ info:
   version: "0.0.1"
   title: "message-board"
 servers:
-  - url: "http://localhost:8080"
+  - url: "http://localhost:8080/api"
     description: local
 tags:
   - name: "user"
-    description: ユーザ
+    description: ユーザー
 paths:
   /users:
     get:
