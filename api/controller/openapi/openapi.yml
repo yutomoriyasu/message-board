@@ -10,34 +10,41 @@ tags:
     description: ユーザ
 paths:
   /users:
-   post:
-    tags:
-      - user
-    operationId: CreateUser
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/CreateUserParam"
-    responses:
-      201:
-        description: Created
+    get:
+      tags:
+        - user
+      operationId: GetUsers
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+    post:
+      tags:
+        - user
+      operationId: CreateUser
+      requestBody:
         content:
           application/json:
             schema:
-              title: 作成されたユーザー
-              $ref: "#/components/schemas/User"
-      500:
-        description: Internal Server Error
+              $ref: "#/components/schemas/CreateUserParam"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: 作成されたユーザー
+                $ref: "#/components/schemas/User"
+        500:
+          description: Internal Server Error
 components:
   schemas:
-    User:
+    UserProp:
       type: object
       properties:
-        id: 
-          type: integer
-          x-go-type: uint64
-          example: 1
         name:
           type: string
           example: さとうだいき
@@ -45,9 +52,28 @@ components:
           type: string
           example: daiki.sato@example.com
       required:
-        - id
         - name
         - email
+    User:
+      type: object
+      allOf:
+      - properties:
+          id:
+            type: integer
+            x-go-type: uint64
+            example: 1
+        required:
+          - id
+      - $ref: "#/components/schemas/UserProp"
+    Users:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+      required:
+        - users
     CreateUserParam:
-      $ref: "#/components/schemas/User"
+      $ref: "#/components/schemas/UserProp"
 

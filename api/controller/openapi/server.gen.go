@@ -10,6 +10,9 @@ import (
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
+	// (GET /users)
+	GetUsers(ctx echo.Context) error
+
 	// (POST /users)
 	CreateUser(ctx echo.Context) error
 }
@@ -17,6 +20,15 @@ type ServerInterface interface {
 // ServerInterfaceWrapper converts echo contexts to parameters.
 type ServerInterfaceWrapper struct {
 	Handler ServerInterface
+}
+
+// GetUsers converts echo context to params.
+func (w *ServerInterfaceWrapper) GetUsers(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetUsers(ctx)
+	return err
 }
 
 // CreateUser converts echo context to params.
@@ -56,6 +68,7 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
+	router.GET(baseURL+"/users", wrapper.GetUsers)
 	router.POST(baseURL+"/users", wrapper.CreateUser)
 
 }

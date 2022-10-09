@@ -15,17 +15,13 @@ type Router struct {
 }
 
 func NewRouter(e *echo.Echo, c *controller.Controller) *Router {
-	openapi.RegisterHandlers(e, c)
-	return &Router{e: e, c: c}
+	openapi.RegisterHandlers(e.Group("/api"), c)
+	return &Router{e, c}
 }
 
 func (r Router) Init(port string) {
 	r.e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, World! <3")
-	})
-
-	r.e.GET("/ping", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
+		return c.String(http.StatusOK, "Hello, World! <3")
 	})
 	r.e.Debug = true
 	r.e.Use(middleware.Logger())

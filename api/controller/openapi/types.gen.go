@@ -4,13 +4,24 @@
 package openapi
 
 // CreateUserParam defines model for CreateUserParam.
-type CreateUserParam = User
+type CreateUserParam = UserProp
 
 // User defines model for User.
 type User struct {
 	Email string `json:"email"`
 	Id    uint64 `json:"id"`
 	Name  string `json:"name"`
+}
+
+// UserProp defines model for UserProp.
+type UserProp struct {
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}
+
+// Users defines model for Users.
+type Users struct {
+	Users []User `json:"users"`
 }
 
 // CreateUserJSONBody defines parameters for CreateUser.

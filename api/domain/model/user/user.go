@@ -6,6 +6,8 @@ type User struct {
 	Email Email
 }
 
+type Users []*User
+
 func NewUser(id ID, name Name, email Email) *User {
 	return &User{
 		ID:    id,

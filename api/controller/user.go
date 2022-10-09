@@ -14,9 +14,7 @@ type User struct {
 }
 
 func NewUser(userInteractor usecase.IUserUsecase) User {
-	return User{
-		userInteractor: userInteractor,
-	}
+	return User{userInteractor}
 }
 
 func (u *User) CreateUser(ctx echo.Context) error {
@@ -25,17 +23,27 @@ func (u *User) CreateUser(ctx echo.Context) error {
 		return err
 	}
 
-	name := user.NewName(param.Name)
+	name := user.NewName(string(param.Name))
 
-	email, err := user.NewEmail(param.Email)
+	email, err := user.NewEmail(string(param.Email))
 	if err != nil {
 		return err
 	}
 
-	user, err := u.userInteractor.CreateUser(ctx.Request().Context(), name, email)
+	user, err := u.userInteractor.CreateUser(
+		ctx.Request().Context(), name, email,
+	)
 	if err != nil {
 		return err
 	}
 
 	return ctx.JSON(http.StatusCreated, openapi.NewUser(user))
+}
+
+func (u *User) GetUsers(ctx echo.Context) error {
+	users, err := u.userInteractor.Find(ctx.Request().Context())
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, openapi.NewUsers(users))
 }

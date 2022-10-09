@@ -11,3 +11,17 @@ func NewUser(user *user.User) User {
 		Email: user.Email.String(),
 	}
 }
+
+func NewUsers(us user.Users) Users {
+	users := make([]User, len(us))
+	for i, u := range us {
+		users[i] = User{
+			Id:    u.ID.Uint64(),
+			Name:  u.Name.String(),
+			Email: u.Email.String(),
+		}
+	}
+	return Users{
+		Users: users,
+	}
+}

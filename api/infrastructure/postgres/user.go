@@ -3,8 +3,6 @@ package postgres
 import (
 	"context"
 	"message-board/domain/model/user"
-
-	"gorm.io/gorm"
 )
 
 type userRepository struct {
@@ -15,22 +13,22 @@ func NewUserRepository(db DB) user.IRepository {
 	return &userRepository{db: db}
 }
 
-type userDTO struct {
-	gorm.Model
-	ID    uint64 `gorm:"column:id"`
+type UserDTO struct {
+	ID    uint64 `gorm:"primaryKey,autoIncrement,column:id"`
 	Name  string `gorm:"column:name"`
 	Email string `gorm:"column:email"`
 }
 
-func newUserDTO(u *user.User) userDTO {
-	return userDTO{
-		ID:    u.ID.Uint64(),
+type userDTOs []UserDTO
+
+func newUserDTO(u *user.User) *UserDTO {
+	return &UserDTO{
 		Name:  u.Name.String(),
 		Email: u.Email.String(),
 	}
 }
 
-func (u userDTO) toDomain() *user.User {
+func (u *UserDTO) toUser() *user.User {
 	email, err := user.NewEmail(u.Email)
 	if err != nil {
 		return nil
@@ -42,12 +40,30 @@ func (u userDTO) toDomain() *user.User {
 	}
 }
 
+func (u userDTOs) toUsers() user.Users {
+	users := make(user.Users, len(u))
+	for i, dto := range u {
+		users[i] = dto.toUser()
+	}
+	return users
+}
+
 func (r *userRepository) Create(ctx context.Context, u *user.User) (*user.User, error) {
 	udto := newUserDTO(u)
 	db := r.db.Conn(ctx)
-	err := db.Create(udto).Error
+	err := db.Table("users").Create(udto).Error
 	if err != nil {
 		return nil, err
 	}
-	return udto.toDomain(), nil
+	return udto.toUser(), nil
+}
+
+func (r *userRepository) Find(ctx context.Context) (user.Users, error) {
+	var udtos userDTOs
+	db := r.db.Conn(ctx)
+	err := db.Table("users").Find(&udtos).Error
+	if err != nil {
+		return nil, err
+	}
+	return udtos.toUsers(), nil
 }
