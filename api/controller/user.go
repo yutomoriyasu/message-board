@@ -47,3 +47,15 @@ func (u *User) GetUsers(ctx echo.Context) error {
 	}
 	return ctx.JSON(http.StatusOK, openapi.NewUsers(users))
 }
+
+func (u *User) GetUser(ctx echo.Context, userId openapi.UserId) error {
+	return ctx.NoContent(http.StatusOK)
+}
+
+func (u *User) UpdateUser(ctx echo.Context, userId openapi.UserId) error {
+	return ctx.NoContent(http.StatusOK)
+}
+
+func (u *User) DeleteUser(ctx echo.Context, userId openapi.UserId) error {
+	return ctx.NoContent(http.StatusOK)
+}

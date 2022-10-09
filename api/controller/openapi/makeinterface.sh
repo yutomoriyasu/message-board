@@ -4,6 +4,6 @@ cd `dirname $0`
 
 PACKAGENAME=openapi
 
-oapi-codegen --old-config-style -generate "types" -package ${PACKAGENAME} ./openapi.yml > ./types.gen.go
-oapi-codegen --old-config-style -generate "server" -package ${PACKAGENAME} ./openapi.yml > ./server.gen.go
-oapi-codegen --old-config-style -generate "spec" -package ${PACKAGENAME} ./openapi.yml > ./spec.gen.go
+oapi-codegen -generate "types" -package ${PACKAGENAME} *.yml > ./types.gen.go
+oapi-codegen -generate "server" -package ${PACKAGENAME} *.yml > ./server.gen.go
+oapi-codegen -generate "spec" -package ${PACKAGENAME} *.yml > ./spec.gen.go

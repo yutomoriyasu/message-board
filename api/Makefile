@@ -4,7 +4,7 @@ wire: install/wire
 	${EXEC} sh -c "wire wire.go"
 
 oapigen: install/oapigen
-	${EXEC} sh -c "sh .controller/openapi/makeinterface.sh"
+	${EXEC} sh -c "sh ./controller/openapi/makeinterface.sh"
 
 install/wire:
 	${EXEC} go install github.com/google/wire/cmd/wire

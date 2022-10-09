@@ -21,6 +21,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Users"
+        500:
+          description: Internal Server Error
     post:
       tags:
         - user
@@ -36,13 +38,67 @@ paths:
           content:
             application/json:
               schema:
-                title: 作成されたユーザー
                 $ref: "#/components/schemas/User"
         500:
           description: Internal Server Error
+  /users/{user_id}:
+    get:
+      tags:
+        - user
+      operationId: GetUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: Internal Server Error
+    patch:
+      tags:
+        - user
+      operationId: UpdateUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserParam"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+    delete:
+      tags:
+        - user
+      operationId: DeleteUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+
 components:
+  parameters:
+    UserId:
+      in: path
+      name: user_id
+      required: true
+      schema:
+        $ref: "#/components/schemas/Id"
   schemas:
-    UserProp:
+    Id:
+      type: integer
+      x-go-type: uint64
+      example: 1
+    UserProps:
       type: object
       properties:
         name:
@@ -59,12 +115,10 @@ components:
       allOf:
       - properties:
           id:
-            type: integer
-            x-go-type: uint64
-            example: 1
+            $ref: "#/components/schemas/Id"
         required:
           - id
-      - $ref: "#/components/schemas/UserProp"
+      - $ref: "#/components/schemas/UserProps"
     Users:
       type: object
       properties:
@@ -75,5 +129,6 @@ components:
       required:
         - users
     CreateUserParam:
-      $ref: "#/components/schemas/UserProp"
-
+      $ref: "#/components/schemas/UserProps"
+    UpdateUserParam:
+      $ref: "#/components/schemas/UserProps"
