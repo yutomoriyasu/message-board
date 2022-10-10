@@ -59,9 +59,33 @@ func (u *User) GetUser(ctx echo.Context, userId openapi.UserId) error {
 }
 
 func (u *User) UpdateUser(ctx echo.Context, userId openapi.UserId) error {
+	var param openapi.UpdateUserParam
+	if err := ctx.Bind(&param); err != nil {
+		return err
+	}
+	email, err := user.NewEmail(param.Email)
+	if err != nil {
+		return err
+	}
+	user := user.NewUser(
+		user.NewID(uint64(userId)),
+		user.NewName(param.Name),
+		email,
+	)
+	err = u.userInteractor.UpdateUser(ctx.Request().Context(), user)
+	if err != nil {
+		return err
+	}
 	return ctx.NoContent(http.StatusOK)
 }
 
 func (u *User) DeleteUser(ctx echo.Context, userId openapi.UserId) error {
+	err := u.userInteractor.DeleteUser(
+		ctx.Request().Context(),
+		user.NewID(uint64(userId)),
+	)
+	if err != nil {
+		return err
+	}
 	return ctx.NoContent(http.StatusOK)
 }

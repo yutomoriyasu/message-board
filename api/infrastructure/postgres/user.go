@@ -82,3 +82,26 @@ func (r *userRepository) GetByID(ctx context.Context, id user.ID) (*user.User, e
 	}
 	return udto.toUser(), nil
 }
+
+func (r *userRepository) Update(ctx context.Context, u *user.User) error {
+	udto := newUserDTO(u)
+	db := r.db.Conn(ctx)
+	if err := db.Table(udto.tableName()).
+		Model(&udto).
+		Where("id = ?", u.ID.Uint64()).
+		Updates(udto).
+		Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *userRepository) Delete(ctx context.Context, id user.ID) error {
+	db := r.db.Conn(ctx)
+	if err := db.Table(UserDTO{}.tableName()).
+		Delete(&UserDTO{}, id.Uint64()).
+		Error; err != nil {
+		return err
+	}
+	return nil
+}

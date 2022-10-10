@@ -9,6 +9,8 @@ type IUserUsecase interface {
 	CreateUser(context.Context, user.Name, user.Email) (*user.User, error)
 	Find(context.Context) (user.Users, error)
 	GetUserByID(context.Context, user.ID) (*user.User, error)
+	UpdateUser(context.Context, *user.User) error
+	DeleteUser(context.Context, user.ID) error
 }
 
 type userUsecase struct {
@@ -43,4 +45,20 @@ func (u *userUsecase) GetUserByID(ctx context.Context, id user.ID) (*user.User, 
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *userUsecase) UpdateUser(ctx context.Context, user *user.User) error {
+	err := u.userRepo.Update(ctx, user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *userUsecase) DeleteUser(ctx context.Context, id user.ID) error {
+	err := u.userRepo.Delete(ctx, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
