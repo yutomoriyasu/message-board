@@ -1,23 +1,18 @@
 package main
 
 import (
-	"log"
+	"context"
 	"message-board/infrastructure/postgres"
-
-	"github.com/labstack/echo/v4"
 )
 
 func main() {
-
-	e := echo.New()
-
 	db, dbClose, err := postgres.Connect()
 	if err != nil {
-		log.Fatalln(err)
-		return
+		panic(err)
 	}
 	defer dbClose()
 
-	r := InitRouter(e, db)
-	r.Init("8080")
+	ctx := context.Background()
+	conn := db.Conn(ctx)
+	conn.Table("users").AutoMigrate(&postgres.UserDTO{})
 }

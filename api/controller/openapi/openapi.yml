@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  version: "0.0.1"
+  title: "message-board"
+servers:
+  - url: "http://localhost:8080/api"
+    description: local
+tags:
+  - name: "user"
+    description: ユーザー
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      operationId: GetUsers
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        500:
+          description: Internal Server Error
+    post:
+      tags:
+        - user
+      operationId: CreateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserParam"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: Internal Server Error
+  /users/{user_id}:
+    get:
+      tags:
+        - user
+      operationId: GetUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: Internal Server Error
+    patch:
+      tags:
+        - user
+      operationId: UpdateUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserParam"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+    delete:
+      tags:
+        - user
+      operationId: DeleteUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+
+components:
+  parameters:
+    UserId:
+      in: path
+      name: user_id
+      required: true
+      schema:
+        $ref: "#/components/schemas/Id"
+  schemas:
+    Id:
+      type: integer
+      x-go-type: uint64
+      example: 1
+    UserProps:
+      type: object
+      properties:
+        name:
+          type: string
+          example: さとうだいき
+        email:
+          type: string
+          example: daiki.sato@example.com
+      required:
+        - name
+        - email
+    User:
+      type: object
+      allOf:
+      - properties:
+          id:
+            $ref: "#/components/schemas/Id"
+        required:
+          - id
+      - $ref: "#/components/schemas/UserProps"
+    Users:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+      required:
+        - users
+    CreateUserParam:
+      $ref: "#/components/schemas/UserProps"
+    UpdateUserParam:
+      $ref: "#/components/schemas/UserProps"
