@@ -29,21 +29,21 @@ services:
     networks:
       - message-board-network
 
-  front:
-    build:
-      context: ./front
-    tty: true
-    working_dir: /app
-    volumes:
-      - ./front:/app
-    environment:
-      - PORT=3000
-      - HOST=0.0.0.0
-    ports:
-      - 3000:3000
-    command: bash -c 'yarn install && yarn dev'
-    networks:
-      - message-board-network
+  # front:
+  #   build:
+  #     context: ./front
+  #   tty: true
+  #   working_dir: /app
+  #   volumes:
+  #     - ./front:/app
+  #   environment:
+  #     - PORT=3000
+  #     - HOST=0.0.0.0
+  #   ports:
+  #     - 3000:3000
+  #   command: bash -c 'yarn install && yarn dev'
+  #   networks:
+  #     - message-board-network
 
 networks:
   message-board-network:

@@ -3,6 +3,8 @@ package postgres
 import (
 	"context"
 	"message-board/domain/model/user"
+
+	"gorm.io/gorm"
 )
 
 type userRepository struct {
@@ -14,12 +16,12 @@ func NewUserRepository(db DB) user.IRepository {
 }
 
 type UserDTO struct {
-	ID    uint64 `gorm:"primaryKey,autoIncrement,column:id"`
+	gorm.Model
 	Name  string `gorm:"column:name"`
 	Email string `gorm:"column:email"`
 }
 
-type userDTOs []UserDTO
+type userDTOs []*UserDTO
 
 func (UserDTO) tableName() string {
 	return "users"
@@ -38,7 +40,7 @@ func (u *UserDTO) toUser() *user.User {
 		return nil
 	}
 	return &user.User{
-		ID:    user.NewID(u.ID),
+		ID:    user.NewID(uint64(u.ID)),
 		Name:  user.NewName(u.Name),
 		Email: email,
 	}
@@ -55,7 +57,7 @@ func (u userDTOs) toUsers() user.Users {
 func (r *userRepository) Create(ctx context.Context, u *user.User) (*user.User, error) {
 	udto := newUserDTO(u)
 	db := r.db.Conn(ctx)
-	err := db.Table(udto.tableName()).Create(udto).Error
+	err := db.Table(udto.tableName()).Create(&udto).Error
 	if err != nil {
 		return nil, err
 	}
